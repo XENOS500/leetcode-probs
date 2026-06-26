@@ -1,23 +1,23 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        unordered_map<char, char> s_to_t;
-        unordered_map<char, char> t_to_s;
-        
-        for (int i = 0; i < s.length(); i++) {
-            char char_s = s[i];
-            char char_t = t[i];
-            
-            // Check if mapping exists in both directions
-            if (s_to_t.find(char_s) == s_to_t.end() && t_to_s.find(char_t) == t_to_s.end()) {
-                s_to_t[char_s] = char_t;
-                t_to_s[char_t] = char_s;
-            } 
-            // If they are already mapped, check if they map to each other
-            else if (s_to_t[char_s] != char_t || t_to_s[char_t] != char_s) {
-                return false;
-            }
-        }
-        return true;
-    }
+          // Arrays to store last seen positions of characters in s and t
+          int m1[256] = {0}, m2[256] = {0}; 
+          
+          // Get the length of the strings
+          int n = s.size(); 
+          
+          // Traverse each character of the strings
+          for (int i = 0; i < n; ++i) {
+              // If previous positions of current characters differ, return false
+              if (m1[s[i]] != m2[t[i]]) return false;
+              
+              // Update the position with current index + 1
+              m1[s[i]] = i + 1;
+              m2[t[i]] = i + 1;
+          }
+          
+          // If no mismatch is found, return true
+          return true;
+      }
 };
